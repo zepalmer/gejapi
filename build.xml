@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+
+<project name="gejapi" default="jar-all" basedir=".">
+    <property name="src-general" value="./src"/>
+    <property name="src-gui" value="./src-gui"/>
+    <property name="build-general" value="./build"/>
+    <property name="build-gui" value="./build-gui"/>
+
+    <target name="build-general">
+        <mkdir dir="${build-general}"/>
+        <javac srcdir="${src-general}" destdir="${build-general}"/>
+    </target>
+
+    <target name="jar-general" depends="build-general">
+        <jar destfile="gejapi-general.jar" basedir="${build-general}"/>
+    </target>
+
+    <target name="build-gui" depends="build-general">
+        <mkdir dir="${build-gui}"/>
+        <javac srcdir="${src-gui}" destdir="${build-gui}" classpath="${build-general}"/>
+    </target>
+
+    <target name="jar-gui" depends="build-gui">
+        <jar destfile="gejapi-gui.jar" basedir="${build-gui}"/>
+    </target>
+
+    <target name="clean">
+        <delete dir="${build-general}" verbose="true"/>
+        <delete dir="${build-gui}" verbose="true"/>
+    </target>
+
+    <target name="jar-all" depends="clean,jar-general,jar-gui">
+        <antcall target="clean"/>
+    </target>
+</project>
